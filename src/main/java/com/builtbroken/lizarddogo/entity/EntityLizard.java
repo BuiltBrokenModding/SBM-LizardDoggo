@@ -16,6 +16,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,8 +32,9 @@ public class EntityLizard extends EntityTameable
     public EntityLizard(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.6F, 0.85F);
+        this.setSize(0.5F, 0.4F);
         this.setTamed(false);
+        //TODO override lookhelper to allow angled head animation
     }
 
     @Override
@@ -127,6 +129,7 @@ public class EntityLizard extends EntityTameable
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((EntityLivingBase)null);
+                player.sendStatusMessage(new TextComponentString("follow: " + wasSitting), true);
             }
         }
         else if (itemstack.getItem() == Items.COOKED_FISH) //TODO maybe several foods
