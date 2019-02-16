@@ -13,7 +13,7 @@ apply plugin: 'eclipse'
 
 version = '1.0.0'
 group = 'sbmlizarddogo'
-archivesBaseName = 'SBM-LizardDogo'
+archivesBaseName = 'SBM-LizardDoggo'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
