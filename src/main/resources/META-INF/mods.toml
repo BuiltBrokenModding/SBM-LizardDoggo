@@ -1,6 +1,6 @@
 modLoader="javafml" #mandatory
 loaderVersion="[25,)" #mandatory
-issueTrackerURL="https://github.com/BuiltBrokenModding/SBM-LizardDogo//issues"
+issueTrackerURL="https://github.com/BuiltBrokenModding/SBM-LizardDogo/issues"
 displayURL="http://minecraft.curseforge.com/projects/sbm-lizard-dogo"
 authors="BuiltBrokenModding"
 
