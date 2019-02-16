@@ -1,20 +1,23 @@
 package com.builtbroken.lizarddogo;
 
-import com.builtbroken.lizarddogo.entity.EntityLizard;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import java.awt.Color;
 
-import java.awt.*;
+import com.builtbroken.lizarddogo.entity.EntityLizard;
+
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemSpawnEgg;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
  */
-@Mod(modid = LizardDogo.DOMAIN, name = "SBM-Lizard Dogo", version = LizardDogo.VERSION)
-@Mod.EventBusSubscriber
+@Mod(LizardDogo.DOMAIN)
+@Mod.EventBusSubscriber(bus=Bus.MOD)
 public class LizardDogo
 {
     public static final String MAJOR_VERSION = "@MAJOR@";
@@ -25,17 +28,13 @@ public class LizardDogo
     public static final String VERSION = MC_VERSION + "-" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
     public static final String DOMAIN = "sbmlizarddogo";
+    public static final EntityType<EntityLizard> LIZARD_ENTITY_TYPE = EntityType.register(DOMAIN + ":lizard", EntityType.Builder.create(EntityLizard.class, EntityLizard::new).tracker(256, 1, true));
+    public static Item lizardSpawnEgg;
 
     @SubscribeEvent
-    public static void registerEntity(RegistryEvent.Register<EntityEntry> event)
+    public static void registerItems(RegistryEvent.Register<Item> event)
     {
-        EntityEntryBuilder builder = EntityEntryBuilder.create();
-        builder.name(DOMAIN + ":lizard");
-        builder.id(new ResourceLocation(DOMAIN, "lizard"), 0);
-        builder.tracker(128, 1, true);
-        builder.entity(EntityLizard.class);
-        builder.egg(new Color(17, 100, 9).getRGB(), new Color(100, 79, 16).getRGB());
-        //builder.spawn() TODO
-        event.getRegistry().register(builder.build());
+        event.getRegistry().register(lizardSpawnEgg = new ItemSpawnEgg(LIZARD_ENTITY_TYPE, new Color(17, 100, 9).getRGB(), new Color(100, 79, 16).getRGB(), new Item.Properties()
+                .group(ItemGroup.MISC)).setRegistryName(DOMAIN + ":lizard_dogo_spawn_egg"));
     }
 }

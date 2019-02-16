@@ -1,12 +1,13 @@
 package com.builtbroken.lizarddogo.client;
 
+import javax.annotation.Nullable;
+
 import com.builtbroken.lizarddogo.LizardDogo;
 import com.builtbroken.lizarddogo.entity.EntityLizard;
+
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.

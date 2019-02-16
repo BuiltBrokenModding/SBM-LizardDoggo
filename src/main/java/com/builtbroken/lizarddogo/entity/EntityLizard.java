@@ -1,10 +1,27 @@
 package com.builtbroken.lizarddogo.entity;
 
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
+import com.builtbroken.lizarddogo.LizardDogo;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
+import net.minecraft.entity.ai.EntityAISit;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.AbstractHorse;
@@ -13,16 +30,14 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
@@ -31,7 +46,7 @@ public class EntityLizard extends EntityTameable
 {
     public EntityLizard(World worldIn)
     {
-        super(worldIn);
+        super(LizardDogo.LIZARD_ENTITY_TYPE, worldIn);
         this.setSize(0.5F, 0.4F);
         this.setTamed(false);
         //TODO override lookhelper to allow angled head animation
@@ -57,11 +72,11 @@ public class EntityLizard extends EntityTameable
     }
 
     @Override
-    protected void applyEntityAttributes()
+    protected void registerAttributes()
     {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
 
@@ -80,7 +95,7 @@ public class EntityLizard extends EntityTameable
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (this.isEntityInvulnerable(source))
+        if (this.isInvulnerableTo(source))
         {
             return false;
         }
@@ -105,7 +120,7 @@ public class EntityLizard extends EntityTameable
     @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), ((int)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue()));
 
         if (flag)
         {
@@ -132,9 +147,9 @@ public class EntityLizard extends EntityTameable
                 player.sendStatusMessage(new TextComponentString("follow: " + wasSitting), true);
             }
         }
-        else if (itemstack.getItem() == Items.COOKED_FISH) //TODO maybe several foods
+        else if (eats(itemstack.getItem())) //TODO maybe several foods
         {
-            if (!player.capabilities.isCreativeMode)
+            if (!player.isCreative())
             {
                 itemstack.shrink(1);
             }
@@ -165,6 +180,11 @@ public class EntityLizard extends EntityTameable
         return super.processInteract(player, hand);
     }
 
+    public boolean eats(Item item)
+    {
+        return item == Items.COD || item == Items.SALMON || item == Items.TROPICAL_FISH;
+    }
+
     @Override
     public boolean isBreedingItem(ItemStack stack)
     {
@@ -172,7 +192,7 @@ public class EntityLizard extends EntityTameable
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id)
     {
         super.handleStatusUpdate(id);
