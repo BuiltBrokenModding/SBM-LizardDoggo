@@ -5,18 +5,18 @@ import javax.annotation.Nullable;
 import com.builtbroken.lizarddogo.LizardDogo;
 import com.builtbroken.lizarddogo.entity.EntityLizard;
 
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
  */
-public class RenderLizard extends RenderLiving<EntityLizard>
+public class RenderLizard extends MobRenderer<EntityLizard,ModelLizard>
 {
     public static final ResourceLocation TEXTURE = new ResourceLocation(LizardDogo.DOMAIN, "textures/entity/lizard.png");
 
-    public RenderLizard(RenderManager rendermanagerIn)
+    public RenderLizard(EntityRendererManager rendermanagerIn)
     {
         super(rendermanagerIn, new ModelLizard(), 0);
     }

@@ -4,10 +4,11 @@ import java.awt.Color;
 
 import com.builtbroken.lizarddogo.entity.EntityLizard;
 
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemSpawnEgg;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,13 +29,23 @@ public class LizardDogo
     public static final String VERSION = MC_VERSION + "-" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
     public static final String DOMAIN = "sbmlizarddogo";
-    public static final EntityType<EntityLizard> LIZARD_ENTITY_TYPE = EntityType.register(DOMAIN + ":lizard", EntityType.Builder.create(EntityLizard.class, EntityLizard::new).tracker(256, 1, true));
+    public static final EntityType<EntityLizard> LIZARD_ENTITY_TYPE = EntityType.Builder.<EntityLizard>create(EntityLizard::new, EntityClassification.CREATURE)
+            .setTrackingRange(256)
+            .setUpdateInterval(1)
+            .setShouldReceiveVelocityUpdates(true)
+            .size(0.5F, 0.4F).build(DOMAIN + ":lizard");
     public static Item lizardSpawnEgg;
+
+    @SubscribeEvent
+    public static void registerEntityTypes(RegistryEvent.Register<EntityType<?>> event)
+    {
+        event.getRegistry().register(LIZARD_ENTITY_TYPE);
+    }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
-        event.getRegistry().register(lizardSpawnEgg = new ItemSpawnEgg(LIZARD_ENTITY_TYPE, new Color(17, 100, 9).getRGB(), new Color(100, 79, 16).getRGB(), new Item.Properties()
+        event.getRegistry().register(lizardSpawnEgg = new SpawnEggItem(LIZARD_ENTITY_TYPE, new Color(17, 100, 9).getRGB(), new Color(100, 79, 16).getRGB(), new Item.Properties()
                 .group(ItemGroup.MISC)).setRegistryName(DOMAIN + ":lizard_dogo_spawn_egg"));
     }
 }

@@ -6,35 +6,37 @@ import javax.annotation.Nullable;
 
 import com.builtbroken.lizarddogo.LizardDogo;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityTameable;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.GhastEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.Hand;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -42,33 +44,37 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
  */
-public class EntityLizard extends EntityTameable
+public class EntityLizard extends TameableEntity
 {
-    public EntityLizard(World worldIn)
+    public EntityLizard(EntityType<EntityLizard> type, World worldIn)
     {
-        super(LizardDogo.LIZARD_ENTITY_TYPE, worldIn);
-        this.setSize(0.5F, 0.4F);
+        super(type, worldIn);
         this.setTamed(false);
         //TODO override lookhelper to allow angled head animation
     }
 
-    @Override
-    protected void initEntityAI()
+    public EntityLizard(World world)
     {
-        this.aiSit = new EntityAISit(this);
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F)); //TODO toy with idea
-        this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
+        this(LizardDogo.LIZARD_ENTITY_TYPE, world);
+    }
 
-        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+    @Override
+    protected void registerGoals()
+    {
+        this.sitGoal = new SitGoal(this);
+        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(2, this.sitGoal);
+        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F)); //TODO toy with idea
+        this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(7, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+
+        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
     }
 
     @Override
@@ -77,13 +83,13 @@ public class EntityLizard extends EntityTameable
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
 
     @Override
-    public float getEyeHeight()
+    public float getEyeHeight(Pose pose)
     {
-        return this.height * 0.8F;
+        return this.getHeight() * 0.8F;
     }
 
     @Override
@@ -103,12 +109,12 @@ public class EntityLizard extends EntityTameable
         {
             Entity entity = source.getTrueSource();
 
-            if (this.aiSit != null)
+            if (this.sitGoal != null)
             {
-                this.aiSit.setSitting(false);
+                this.sitGoal.setSitting(false);
             }
 
-            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
+            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof ArrowEntity))
             {
                 amount = (amount + 1.0F) / 2.0F;
             }
@@ -131,7 +137,7 @@ public class EntityLizard extends EntityTameable
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand)
+    public boolean processInteract(PlayerEntity player, Hand hand)
     {
         ItemStack itemstack = player.getHeldItem(hand);
 
@@ -140,11 +146,11 @@ public class EntityLizard extends EntityTameable
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack))
             {
                 boolean wasSitting = this.isSitting();
-                this.aiSit.setSitting(!wasSitting);
+                this.sitGoal.setSitting(!wasSitting);
                 this.isJumping = false;
                 this.navigator.clearPath();
-                this.setAttackTarget((EntityLivingBase)null);
-                player.sendStatusMessage(new TextComponentString("follow: " + wasSitting), true);
+                this.setAttackTarget(null);
+                player.sendStatusMessage(new StringTextComponent("follow: " + wasSitting), true);
             }
         }
         else if (eats(itemstack.getItem())) //TODO maybe several foods
@@ -161,8 +167,8 @@ public class EntityLizard extends EntityTameable
                 {
                     this.setTamedBy(player);
                     this.navigator.clearPath();
-                    this.setAttackTarget((EntityLivingBase)null);
-                    this.aiSit.setSitting(true);
+                    this.setAttackTarget(null);
+                    this.sitGoal.setSitting(true);
                     this.setHealth(20.0F); //TODO match HP
                     this.playTameEffect(true);
                     this.world.setEntityState(this, (byte)7); //TODO cache states in named vars
@@ -206,7 +212,7 @@ public class EntityLizard extends EntityTameable
 
     @Nullable
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable)
+    public AgeableEntity createChild(AgeableEntity ageable)
     {
         EntityLizard entitywolf = new EntityLizard(this.world);
         UUID uuid = this.getOwnerId();
@@ -221,7 +227,7 @@ public class EntityLizard extends EntityTameable
     }
 
     @Override
-    public boolean canMateWith(EntityAnimal otherAnimal)
+    public boolean canMateWith(AnimalEntity otherAnimal)
     {
         if (otherAnimal == this)
         {
@@ -255,13 +261,13 @@ public class EntityLizard extends EntityTameable
     }
 
     @Override
-    public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner)
+    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner)
     {
-        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast))
+        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity))
         {
-            if (target instanceof EntityTameable)
+            if (target instanceof TameableEntity)
             {
-                EntityTameable entitywolf = (EntityTameable)target;
+                TameableEntity entitywolf = (TameableEntity)target;
 
                 if (entitywolf.isTamed() && entitywolf.getOwner() == owner)
                 {
@@ -269,13 +275,13 @@ public class EntityLizard extends EntityTameable
                 }
             }
 
-            if (target instanceof EntityPlayer && owner instanceof EntityPlayer && !((EntityPlayer)owner).canAttackPlayer((EntityPlayer)target))
+            if (target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity)owner).canAttackPlayer((PlayerEntity)target))
             {
                 return false;
             }
             else
             {
-                return !(target instanceof AbstractHorse) || !((AbstractHorse)target).isTame();
+                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity)target).isTame();
             }
         }
         else

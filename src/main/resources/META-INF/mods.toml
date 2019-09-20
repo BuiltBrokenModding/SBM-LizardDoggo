@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[25,)" #mandatory
+loaderVersion="[28,)" #mandatory
 issueTrackerURL="https://github.com/BuiltBrokenModding/SBM-LizardDogo/issues"
 displayURL="http://minecraft.curseforge.com/projects/sbm-lizard-dogo"
 authors="BuiltBrokenModding"
@@ -13,13 +13,13 @@ description='''Tamable lizard that acts like a dog''' #mandatory
 [[dependencies.sbmlizarddogo]]
     modId="forge"
     mandatory=true
-    versionRange="[25,)"
+    versionRange="[28,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.sbmlizarddogo]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.13.2]"
+    versionRange="[1.14,1.15)"
     ordering="NONE"
     side="BOTH"
