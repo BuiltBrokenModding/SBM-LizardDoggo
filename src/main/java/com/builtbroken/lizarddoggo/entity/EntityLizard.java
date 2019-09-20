@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.builtbroken.lizarddoggo.ConfigMain;
 import com.builtbroken.lizarddoggo.LizardDoggo;
 
 import net.minecraft.entity.AgeableEntity;
@@ -33,7 +34,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.StringTextComponent;
@@ -153,7 +153,7 @@ public class EntityLizard extends TameableEntity
                 player.sendStatusMessage(new StringTextComponent("follow: " + wasSitting), true);
             }
         }
-        else if (eats(itemstack.getItem())) //TODO maybe several foods
+        else if (eats(itemstack.getItem()))
         {
             if (!player.isCreative())
             {
@@ -188,13 +188,13 @@ public class EntityLizard extends TameableEntity
 
     public boolean eats(Item item)
     {
-        return item == Items.COD || item == Items.SALMON || item == Items.TROPICAL_FISH;
+        return ConfigMain.CONFIG.tamingItems.get().contains(item.getRegistryName().toString()); //a little hacky, but it works
     }
 
     @Override
     public boolean isBreedingItem(ItemStack stack)
     {
-        return stack.getItem() == Items.GLOWSTONE_DUST;
+        return ConfigMain.CONFIG.breedingItems.get().contains(stack.getItem().getRegistryName().toString()); //a little hacky, but it works
     }
 
     @Override

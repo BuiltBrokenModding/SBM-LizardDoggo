@@ -12,8 +12,10 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.config.ModConfig;
 
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
@@ -36,6 +38,11 @@ public class LizardDoggo
             .setShouldReceiveVelocityUpdates(true)
             .size(0.5F, 0.4F).build(DOMAIN + ":lizard");
     public static Item lizardSpawnEgg;
+
+    public LizardDoggo()
+    {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigMain.CONFIG_SPEC);
+    }
 
     @SubscribeEvent
     public static void registerEntityTypes(RegistryEvent.Register<EntityType<?>> event)
