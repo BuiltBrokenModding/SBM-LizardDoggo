@@ -1,7 +1,7 @@
-package com.builtbroken.lizarddogo.client;
+package com.builtbroken.lizarddoggo.client;
 
-import com.builtbroken.lizarddogo.LizardDogo;
-import com.builtbroken.lizarddogo.entity.EntityLizard;
+import com.builtbroken.lizarddoggo.LizardDoggo;
+import com.builtbroken.lizarddoggo.entity.EntityLizard;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
  */
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = LizardDogo.DOMAIN, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = LizardDoggo.DOMAIN, value = Dist.CLIENT)
 public class ClientReg
 {
     @SubscribeEvent

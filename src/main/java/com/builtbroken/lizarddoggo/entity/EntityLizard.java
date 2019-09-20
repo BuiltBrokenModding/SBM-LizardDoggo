@@ -1,10 +1,10 @@
-package com.builtbroken.lizarddogo.entity;
+package com.builtbroken.lizarddoggo.entity;
 
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.builtbroken.lizarddogo.LizardDogo;
+import com.builtbroken.lizarddoggo.LizardDoggo;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -55,7 +55,7 @@ public class EntityLizard extends TameableEntity
 
     public EntityLizard(World world)
     {
-        this(LizardDogo.LIZARD_ENTITY_TYPE, world);
+        this(LizardDoggo.LIZARD_ENTITY_TYPE, world);
     }
 
     @Override

@@ -1,6 +1,6 @@
-package com.builtbroken.lizarddogo.client;
+package com.builtbroken.lizarddoggo.client;
 
-import com.builtbroken.lizarddogo.entity.EntityLizard;
+import com.builtbroken.lizarddoggo.entity.EntityLizard;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;

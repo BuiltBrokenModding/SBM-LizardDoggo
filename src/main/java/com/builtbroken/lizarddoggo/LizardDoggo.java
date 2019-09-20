@@ -1,8 +1,8 @@
-package com.builtbroken.lizarddogo;
+package com.builtbroken.lizarddoggo;
 
 import java.awt.Color;
 
-import com.builtbroken.lizarddogo.entity.EntityLizard;
+import com.builtbroken.lizarddoggo.entity.EntityLizard;
 
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -17,9 +17,9 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
  */
-@Mod(LizardDogo.DOMAIN)
+@Mod(LizardDoggo.DOMAIN)
 @Mod.EventBusSubscriber(bus=Bus.MOD)
-public class LizardDogo
+public class LizardDoggo
 {
     public static final String MAJOR_VERSION = "@MAJOR@";
     public static final String MINOR_VERSION = "@MINOR@";
@@ -28,7 +28,7 @@ public class LizardDogo
     public static final String MC_VERSION = "@MC@";
     public static final String VERSION = MC_VERSION + "-" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
-    public static final String DOMAIN = "sbmlizarddogo";
+    public static final String DOMAIN = "sbmlizarddoggo";
     public static final EntityType<EntityLizard> LIZARD_ENTITY_TYPE = EntityType.Builder.<EntityLizard>create(EntityLizard::new, EntityClassification.CREATURE)
             .setTrackingRange(256)
             .setUpdateInterval(1)
@@ -46,6 +46,6 @@ public class LizardDogo
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
         event.getRegistry().register(lizardSpawnEgg = new SpawnEggItem(LIZARD_ENTITY_TYPE, new Color(17, 100, 9).getRGB(), new Color(100, 79, 16).getRGB(), new Item.Properties()
-                .group(ItemGroup.MISC)).setRegistryName(DOMAIN + ":lizard_dogo_spawn_egg"));
+                .group(ItemGroup.MISC)).setRegistryName(DOMAIN + ":lizard_doggo_spawn_egg"));
     }
 }

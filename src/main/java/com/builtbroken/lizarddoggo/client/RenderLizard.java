@@ -1,9 +1,9 @@
-package com.builtbroken.lizarddogo.client;
+package com.builtbroken.lizarddoggo.client;
 
 import javax.annotation.Nullable;
 
-import com.builtbroken.lizarddogo.LizardDogo;
-import com.builtbroken.lizarddogo.entity.EntityLizard;
+import com.builtbroken.lizarddoggo.LizardDoggo;
+import com.builtbroken.lizarddoggo.entity.EntityLizard;
 
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class RenderLizard extends MobRenderer<EntityLizard,ModelLizard>
 {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(LizardDogo.DOMAIN, "textures/entity/lizard.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(LizardDoggo.DOMAIN, "textures/entity/lizard.png");
 
     public RenderLizard(EntityRendererManager rendermanagerIn)
     {
