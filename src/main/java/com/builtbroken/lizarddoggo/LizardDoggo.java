@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,7 +40,7 @@ public class LizardDoggo
     @SubscribeEvent
     public static void registerEntityTypes(RegistryEvent.Register<EntityType<?>> event)
     {
-        event.getRegistry().register(LIZARD_ENTITY_TYPE);
+        event.getRegistry().register(LIZARD_ENTITY_TYPE.setRegistryName(new ResourceLocation(DOMAIN, "lizard")));
     }
 
     @SubscribeEvent
