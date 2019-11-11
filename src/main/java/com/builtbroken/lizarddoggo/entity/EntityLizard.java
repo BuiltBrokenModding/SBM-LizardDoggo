@@ -4,6 +4,10 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import com.builtbroken.lizarddoggo.ConfigMain;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +31,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -142,7 +146,7 @@ public class EntityLizard extends EntityTameable
                 player.sendStatusMessage(new TextComponentString("follow: " + wasSitting), true);
             }
         }
-        else if (itemstack.getItem() == Items.COOKED_FISH) //TODO maybe several foods
+        else if (eats(itemstack.getItem()))
         {
             if (!player.capabilities.isCreativeMode)
             {
@@ -175,10 +179,15 @@ public class EntityLizard extends EntityTameable
         return super.processInteract(player, hand);
     }
 
+    public boolean eats(Item item)
+    {
+        return ArrayUtils.contains(ConfigMain.tamingItems, item.getRegistryName().toString()); //a little hacky, but it works
+    }
+
     @Override
     public boolean isBreedingItem(ItemStack stack)
     {
-        return stack.getItem() == Items.GLOWSTONE_DUST;
+        return ArrayUtils.contains(ConfigMain.breedingItems, stack.getItem().getRegistryName().toString()); //a little hacky, but it works
     }
 
     @Override
