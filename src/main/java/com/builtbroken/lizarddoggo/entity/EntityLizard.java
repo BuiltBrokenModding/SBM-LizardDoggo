@@ -1,10 +1,25 @@
-package com.builtbroken.lizarddogo.entity;
+package com.builtbroken.lizarddoggo.entity;
+
+import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIFollowOwner;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
+import net.minecraft.entity.ai.EntityAISit;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.AbstractHorse;
@@ -18,11 +33,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
@@ -105,7 +115,7 @@ public class EntityLizard extends EntityTameable
     @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), ((int)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
 
         if (flag)
         {
@@ -172,13 +182,6 @@ public class EntityLizard extends EntityTameable
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void handleStatusUpdate(byte id)
-    {
-        super.handleStatusUpdate(id);
-    }
-
-    @Override
     public int getMaxSpawnedInChunk()
     {
         return 2;
@@ -188,16 +191,16 @@ public class EntityLizard extends EntityTameable
     @Override
     public EntityAgeable createChild(EntityAgeable ageable)
     {
-        EntityLizard entitywolf = new EntityLizard(this.world);
+        EntityLizard lizard = new EntityLizard(this.world);
         UUID uuid = this.getOwnerId();
 
         if (uuid != null)
         {
-            entitywolf.setOwnerId(uuid);
-            entitywolf.setTamed(true);
+            lizard.setOwnerId(uuid);
+            lizard.setTamed(true);
         }
 
-        return entitywolf;
+        return lizard;
     }
 
     @Override
@@ -217,19 +220,19 @@ public class EntityLizard extends EntityTameable
         }
         else
         {
-            EntityLizard entitywolf = (EntityLizard) otherAnimal;
+            EntityLizard lizard = (EntityLizard) otherAnimal;
 
-            if (!entitywolf.isTamed())
+            if (!lizard.isTamed())
             {
                 return false;
             }
-            else if (entitywolf.isSitting())
+            else if (lizard.isSitting())
             {
                 return false;
             }
             else
             {
-                return this.isInLove() && entitywolf.isInLove();
+                return this.isInLove() && lizard.isInLove();
             }
         }
     }
@@ -241,9 +244,9 @@ public class EntityLizard extends EntityTameable
         {
             if (target instanceof EntityTameable)
             {
-                EntityTameable entitywolf = (EntityTameable)target;
+                EntityTameable lizard = (EntityTameable)target;
 
-                if (entitywolf.isTamed() && entitywolf.getOwner() == owner)
+                if (lizard.isTamed() && lizard.getOwner() == owner)
                 {
                     return false;
                 }

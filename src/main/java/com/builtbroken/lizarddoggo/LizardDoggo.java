@@ -1,6 +1,9 @@
-package com.builtbroken.lizarddogo;
+package com.builtbroken.lizarddoggo;
 
-import com.builtbroken.lizarddogo.entity.EntityLizard;
+import java.awt.Color;
+
+import com.builtbroken.lizarddoggo.entity.EntityLizard;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -8,14 +11,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 
-import java.awt.*;
-
 /**
  * Created by Dark(DarkGuardsman, Robert) on 1/12/2019.
  */
-@Mod(modid = LizardDogo.DOMAIN, name = "SBM-Lizard Dogo", version = LizardDogo.VERSION)
+@Mod(modid = LizardDoggo.DOMAIN, name = "SBM-Lizard Doggo", version = LizardDoggo.VERSION)
 @Mod.EventBusSubscriber
-public class LizardDogo
+public class LizardDoggo
 {
     public static final String MAJOR_VERSION = "@MAJOR@";
     public static final String MINOR_VERSION = "@MINOR@";
@@ -29,7 +30,7 @@ public class LizardDogo
     @SubscribeEvent
     public static void registerEntity(RegistryEvent.Register<EntityEntry> event)
     {
-        EntityEntryBuilder builder = EntityEntryBuilder.create();
+        EntityEntryBuilder<EntityLizard> builder = EntityEntryBuilder.create();
         builder.name(DOMAIN + ":lizard");
         builder.id(new ResourceLocation(DOMAIN, "lizard"), 0);
         builder.tracker(128, 1, true);
