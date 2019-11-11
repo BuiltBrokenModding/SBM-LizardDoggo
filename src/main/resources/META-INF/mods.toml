@@ -6,7 +6,7 @@ authors="BuiltBrokenModding"
 
 [[mods]] #mandatory
 modId="sbmlizarddoggo" #mandatory
-version="2.0.0" #mandatory
+version="1.1.0" #mandatory
 displayName="SBM-LizardDoggo" #mandatory
 description='''Tamable lizard that acts like a dog''' #mandatory
 

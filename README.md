@@ -1,2 +1,2 @@
-# SBM-LizardDogo
-Simple mod that adds a bet lizard, model by M1W3ST
+# SBM-LizardDoggo
+Simple mod that adds a pet lizard, model by M1W3ST
