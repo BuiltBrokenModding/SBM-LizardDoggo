@@ -1,5 +1,7 @@
 package com.builtbroken.lizarddoggo.entity;
 
+import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -7,12 +9,10 @@ import javax.annotation.Nullable;
 import com.builtbroken.lizarddoggo.ConfigMain;
 import com.builtbroken.lizarddoggo.LizardDoggo;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
+import com.google.common.collect.Sets;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -36,7 +36,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -259,6 +261,12 @@ public class EntityLizard extends TameableEntity
             }
         }
     }
+
+    private static Set<Block> ALLOWED_BLOCKS = Sets.newHashSet(Blocks.GRASS_BLOCK, Blocks.SAND, Blocks.RED_SAND, Blocks.SANDSTONE, Blocks.RED_SANDSTONE);
+
+    public static boolean placement (EntityType<? extends AnimalEntity> animal, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
+    return ALLOWED_BLOCKS.contains(world.getBlockState(pos.down()).getBlock()) && world.getLightSubtracted(pos, 0) > 8;
+  }
 
     @Override
     public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner)
