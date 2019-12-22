@@ -23,7 +23,7 @@ public class RenderLizard extends MobRenderer<EntityLizard,ModelLizard>
 
     @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(EntityLizard entity)
+    public ResourceLocation getEntityTexture(EntityLizard entity)
     {
         return TEXTURE;
     }

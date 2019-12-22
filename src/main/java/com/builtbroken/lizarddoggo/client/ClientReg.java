@@ -1,7 +1,6 @@
 package com.builtbroken.lizarddoggo.client;
 
 import com.builtbroken.lizarddoggo.LizardDoggo;
-import com.builtbroken.lizarddoggo.entity.EntityLizard;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -22,6 +21,6 @@ public class ClientReg
     public static void onClientSetup(FMLClientSetupEvent event)
     {
         //Entity
-        RenderingRegistry.registerEntityRenderingHandler(EntityLizard.class, manager -> new RenderLizard(manager));
+        RenderingRegistry.registerEntityRenderingHandler(LizardDoggo.LIZARD_ENTITY_TYPE, RenderLizard::new);
     }
 }
